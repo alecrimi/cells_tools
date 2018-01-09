@@ -14,7 +14,7 @@ fname = 'USExpII_HeLa_580kHz_40%e_30min_LTT-l_8%AA_CK8-18-a649_647ex_Quadruple_l
 disp('#######################################')
 disp('Loading images');
 info = imfinfo(fname); 
-num_images =   5;%numel(info);
+num_images =   150;%numel(info);
 stack = zeros(info(1).Width, info(1).Height, num_images);
 for k = 1 :  num_images
     stack(:,:,k) = imread(fname, k);
