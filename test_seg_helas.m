@@ -14,7 +14,7 @@ fname = 'USExpII_HeLa_580kHz_40%e_30min_LTT-l_8%AA_CK8-18-a649_647ex_Quadruple_l
 disp('#######################################')
 disp('Loading images');
 info = imfinfo(fname); 
-num_images =   150;%numel(info);
+num_images =   5;%numel(info);
 stack = zeros(info(1).Width, info(1).Height, num_images);
 for k = 1 :  num_images
     stack(:,:,k) = imread(fname, k);
@@ -40,8 +40,6 @@ center_list = []; %Incremental, this has to be improved
 mean_list = [];
 
 % Stack of images
-figure('Name',fname,'NumberTitle','off');
-
 for nn = 1 : num_images 
     segmented_stack(:,:,nn) = segment_HeLas(Im_test_cropped(:,:,nn),min_area,max_area);
 %end
@@ -65,19 +63,20 @@ end
 c_list = (rect(2)+center_list)*resolution;
 c_list_flipped = max(c_list) - c_list;
 
+figure('Name',fname,'NumberTitle','off');
 plot( c_list_flipped, mean_list,'b*','MarkerSize',3);
 xlabel('Depth in \mum') % x-axis label
 ylabel('Mean intensity value inside segmented cells') % y-axis label
 box on
 axis([ 0 1600*resolution  0 1500])
 
-% Plot mask
 %overlay_stack_seg  = max( segmented_stack,3);
 overlay_stack_seg = max(segmented_stack, [], 3);
 overlay_stack_mask = overlay_stack_seg > 1 ;
 print(strcat('plot_',fname),'-dpng');
 saveas(gcf,strcat('../analyzed/plot_',fname,'.png'));
 
+% Mask
 %figure; imagesc(overlay_stack_mask);
 %original_overlay = max(stack,3); %sum(Im_test_cropped,3);
 original_overlay = max(stack, [], 3);
@@ -86,7 +85,7 @@ global_overlay(rect(2):rect(2)+rect(4),rect(1)-rect(3):rect(1),:) = global_overl
 
 RGB = cat(3, original_overlay, original_overlay, original_overlay);
 RGB(:,:,1) = global_overlay; 
-figure; imshow(uint8(RGB));
+figure('Name',fname,'NumberTitle','off'); imshow(uint8(RGB));
 hold on; quiver(1800,2000,250,0,'ShowArrowHead','off','color',[1 1 1],'linewidth',10) %Scalebar
 saveas(gcf,strcat('../analyzed/segmented_',fname,'.png'));
 
@@ -95,10 +94,14 @@ data = [ c_list_flipped' mean_list'];
 % First column center, second column intensity
 csvwrite(['../analyzed/datapoints_' fname '.csv'],data)
 
-
-
-
-
+% Histogram
+figure('Name',fname,'NumberTitle','off');
+hist(c_list_flipped);
+xlabel('Depth in \mum') % x-axis label
+ylabel('Number of cells') % y-axis label
+box on
+axis([ 0 1600*resolution  0 250])
+saveas(gcf,strcat('../analyzed/histogram_',fname,'.png'));
 
 
 %%%%%%%%%%%%%%%%%%%%%OLD STUFF, KEEP IT TEMPORARILY%%%%%%%%%%%%%%%%%%%%%%
