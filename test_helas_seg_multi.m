@@ -12,6 +12,7 @@ resolution = 4 ; %Resolution (um/pixel)
 [FileNames,PathName] = uigetfile('*.tif','Select the stack you want to process','MultiSelect','on');
 
 init_points = zeros(length(FileNames),2);
+sum_int = zeros(length(FileNames),1);
 for ff = 1 : length(FileNames)
     % Select initial point for ROI    
     [ x, y ] = select_NordEast(cell2mat(FileNames(ff)));
@@ -77,7 +78,7 @@ for kk = 1 : length(FileNames)
     overlay_stack_seg = max(segmented_stack, [], 3);
     overlay_stack_mask = overlay_stack_seg > 1 ;
     %print(strcat('plot_',fname),'-dpng');
-    saveas(gcf,strcat('../analyzed/plot_',fname,'.png'));
+    saveas(gcf,strcat('analyzed/plot_',fname,'.png'));
 
     % Mask
     %figure; imagesc(overlay_stack_mask);
@@ -90,12 +91,12 @@ for kk = 1 : length(FileNames)
     RGB(:,:,1) = global_overlay; 
     figure('Name',fname,'NumberTitle','off'); imshow(uint8(RGB));
     hold on; quiver(1800,2000,250,0,'ShowArrowHead','off','color',[1 1 1],'linewidth',10) %Scalebar
-    saveas(gcf,strcat('../analyzed/segmented_',fname,'.png'));
+    saveas(gcf,strcat('analyzed/segmented_',fname,'.png'));
 
     % Save points
     data = [ c_list_flipped' mean_list'];
     % First column center, second column intensity
-    csvwrite(['../analyzed/datapoints_' fname '.csv'],data)
+    csvwrite(['analyzed/datapoints_' fname '.csv'],data)
 
     % Histogram
     figure('Name',fname,'NumberTitle','off');
@@ -103,7 +104,8 @@ for kk = 1 : length(FileNames)
     xlabel('Depth in \mum') % x-axis label
     ylabel('Number of cells') % y-axis label
     box on
-    axis([ 0 1600*resolution  0 250])
-    saveas(gcf,strcat('../analyzed/histogram_',fname,'.png'));
-
+    axis([ 0 1600*resolution  0 1000])
+    saveas(gcf,strcat('analyzed/histogram_',fname,'.png'));
+ 
 end
+ 
