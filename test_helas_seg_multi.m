@@ -24,7 +24,7 @@ for kk = 1 : length(FileNames)
     disp('Loading images');
     fname = cell2mat(FileNames(kk));
     info = imfinfo(fname); 
-    num_images =   5;%numel(info);
+    num_images =  numel(info);
     stack = zeros(info(1).Width, info(1).Height, num_images);
     for k = 1 :  num_images
         stack(:,:,k) = imread(fname, k);
