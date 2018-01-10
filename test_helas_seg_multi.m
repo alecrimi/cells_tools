@@ -104,7 +104,7 @@ for kk = 1 : length(FileNames)
     xlabel('Depth in \mum') % x-axis label
     ylabel('Number of cells') % y-axis label
     box on
-    axis([ 0 1600*resolution  0 1000])
+    axis([ 0 1600*resolution  0 1500])
     saveas(gcf,strcat('analyzed/histogram_',fname,'.png'));
  
 end
