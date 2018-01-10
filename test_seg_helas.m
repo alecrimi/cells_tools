@@ -100,7 +100,7 @@ hist(c_list_flipped);
 xlabel('Depth in \mum') % x-axis label
 ylabel('Number of cells') % y-axis label
 box on
-axis([ 0 1600*resolution  0 250])
+axis([ 0 1600*resolution  0 1500])
 saveas(gcf,strcat('../analyzed/histogram_',fname,'.png'));
 
 
