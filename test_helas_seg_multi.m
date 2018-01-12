@@ -11,11 +11,23 @@ resolution = 4 ; %Resolution (um/pixel)
 %Load file
 [FileNames,PathName] = uigetfile('*.tif','Select the stack you want to process','MultiSelect','on');
 
-init_points = zeros(length(FileNames),2);
-sum_int = zeros(length(FileNames),1);
-for ff = 1 : length(FileNames)
+% Check if the selected files are more than 1
+if (iscell(FileNames))
+    n_files = length(FileNames);
+else
+    n_files = 1 ;
+end
+
+init_points = zeros(n_files,2);
+%sum_int = zeros(n_files,1);
+
+for ff = 1 : n_files
     % Select initial point for ROI    
-    [ x, y ] = select_NordEast(cell2mat(FileNames(ff)));
+    if (n_files > 1)
+        [ x, y ] = select_NordEast(cell2mat(FileNames(ff)));
+    else
+        [ x, y ] = select_NordEast(FileNames);
+    end
     init_points(ff,1) = x;
     init_points(ff,2) = y;
 end
@@ -23,9 +35,14 @@ end
 for kk = 1 : length(FileNames)
     disp('#######################################')
     disp('Loading images');
-    fname = cell2mat(FileNames(kk));
+    if (n_files > 1)
+        fname = cell2mat(FileNames(kk));
+    else
+        fname = FileNames;
+    end
+    
     info = imfinfo(fname); 
-    num_images =  numel(info);
+    num_images = numel(info);
     stack = zeros(info(1).Width, info(1).Height, num_images);
     for k = 1 :  num_images
         stack(:,:,k) = imread(fname, k);
@@ -108,4 +125,3 @@ for kk = 1 : length(FileNames)
     saveas(gcf,strcat('analyzed/histogram_',fname,'.png'));
  
 end
- 
