@@ -1,4 +1,4 @@
-function hist_cell_count
+%function hist_cell_count
 
 %Load file
 [FileNames,PathName] = uigetfile('*.csv','Select the stack you want to process','MultiSelect','on');
@@ -23,6 +23,12 @@ for ff = 1 : n_files
     barr_data(ff,:) = count;
 end
 
-boxplot(barr_data);
+figure;
+A = [100: 165:1650];
+boxplot(barr_data,A);
+hold on
+[n1 n2]=size(barr_data);
+plot(ones(n1,1)*[1:length(barr_data)],barr_data,'r*')
+hold off
 xlabel('Interval Depth in \mum') % x-axis label
 ylabel('Number of cells') % y-axis label
