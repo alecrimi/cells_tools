@@ -49,7 +49,7 @@ for ff = 1 : n_files
     init_points(ff,2) = y;
 end
 
-for kk = 1 : length(FileNames)
+for kk = 1 : n_files
     disp('#######################################')
     disp('Loading images');
     if (n_files > 1)
