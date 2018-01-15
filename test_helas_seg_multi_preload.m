@@ -31,7 +31,7 @@ for ff = 1 : n_files
     end
     
     info = imfinfo(fname); 
-    num_images = numel(info);
+    num_images =  numel(info);
     stack = zeros(info(1).Width, info(1).Height, num_images);
     for k = 1 :  num_images
         stack(:,:,k) = imread(fname, k);
@@ -59,7 +59,7 @@ for kk = 1 : length(FileNames)
     end
     
     info = imfinfo(fname); 
-    num_images = numel(info);
+    num_images =  numel(info);
     stack = zeros(info(1).Width, info(1).Height, num_images);
     for k = 1 :  num_images
         stack(:,:,k) = imread(fname, k);
@@ -112,7 +112,7 @@ for kk = 1 : length(FileNames)
     overlay_stack_seg = max(segmented_stack, [], 3);
     overlay_stack_mask = overlay_stack_seg > 1 ;
     %print(strcat('plot_',fname),'-dpng');
-    saveas(gcf,strcat('analyzed/plot_',fname,'.png'));
+    saveas(gcf,strcat(PathName,'analyzed/p_',fname,'.png'));
 
     % Mask
     %figure; imagesc(overlay_stack_mask);
@@ -125,12 +125,12 @@ for kk = 1 : length(FileNames)
     RGB(:,:,1) = global_overlay; 
     figure('Name',fname,'NumberTitle','off'); imshow(uint8(RGB));
     hold on; quiver(1800,2000,250,0,'ShowArrowHead','off','color',[1 1 1],'linewidth',10) %Scalebar
-    saveas(gcf,strcat('analyzed/segmented_',fname,'.png'));
+    saveas(gcf,strcat(PathName,'analyzed/s_',fname,'.png'));
 
     % Save points
     data = [ c_list_flipped' mean_list'];
     % First column center, second column intensity
-    csvwrite(['analyzed/datapoints_' fname '.csv'],data)
+    csvwrite([PathName 'analyzed/d_' fname '.csv'],data)
 
     % Histogram
     figure('Name',fname,'NumberTitle','off');
@@ -139,6 +139,21 @@ for kk = 1 : length(FileNames)
     ylabel('Number of cells') % y-axis label
     box on
     axis([ 0 1600*resolution  0 1500])
-    saveas(gcf,strcat('analyzed/histogram_',fname,'.png'));
+    saveas(gcf,strcat(PathName,'analyzed/h_',fname,'.png'));
  
+    %Cumulative intensities
+    sorted_intensities = sortrows(data,1);
+    interval = 1 : max(data(:,1))/10 : max(data(:,1));
+    n_bins = length(interval);
+    bins = zeros(n_bins,1);
+    interval(end + 1) = max(data(:,1));
+    for hh = 1 : n_bins     
+        pos = find(sorted_intensities(:,1)>interval(hh) & sorted_intensities(:,1)<interval(hh+1) );
+        bins(hh) = sum(sorted_intensities(pos,2));
+    end
+    figure; bar(interval(1:end-1)/2,bins);
+    xlim([-200 max(data(:,1))])
+    xlabel('Depth in \mum') % x-axis label
+    ylabel('Cumulative sum of intensities from cells') % y-axis label
+    saveas(gcf,strcat(PathName,'analyzed/ci_',fname,'.png'));
 end
