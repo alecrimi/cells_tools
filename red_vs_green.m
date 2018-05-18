@@ -3,7 +3,7 @@
 function [n, n_norm, mean_int, n_pixel, n_green, intensities ] =  red_vs_green( red_file, green_file)
 
        % Common threshold for binarization
-       bin_th = 0.15; %it was 0.1
+       bin_th = 0.1; 
 
        % Load files
        red_c = imread(red_file);
@@ -44,7 +44,8 @@ function [n, n_norm, mean_int, n_pixel, n_green, intensities ] =  red_vs_green( 
        end 
        
        threshold_artFX = 150000;
-       if (maxvalue < threshold_artFX)
+     %  if (maxvalue < threshold_artFX)
+        if (1)
            difference = BW_red - BW_green;
            dif = difference>0; %Discart negative values as these represent the difference green - red.
  %          figure; imagesc(dif)
@@ -52,9 +53,9 @@ function [n, n_norm, mean_int, n_pixel, n_green, intensities ] =  red_vs_green( 
            % Perform morphological operators
            % The dilation is a bit bigger to avoid over partitioning of the
            % same cells
-           SE_ero = strel('rectangle',[5 5]); 
+           SE_ero = strel('rectangle',[1 1]); 
            BW_erode = imerode(dif,SE_ero);  
-           SE_dil = strel('rectangle',[6 6]); 
+           SE_dil = strel('rectangle',[1 1]); 
            BW_final = imdilate(BW_erode,SE_dil);
        %    figure;imagesc(BW_final);
 
