@@ -14,7 +14,8 @@ for kk = 1 : 2:  length(list)
     results(result_count,2)  = n_norm;
     results(result_count,3)  = mean_int;
     results(result_count,4)  = n_pixel;
-    results(result_count,5)  = intensities;
+    results(result_count,5)  = n_green;
+    results(result_count,6)  = intensities;
     
     result_count = result_count +1
     
@@ -23,13 +24,17 @@ end
 csvwrite('results_4_20_2018.csv',results);
 
 % Average per well field
-results_averaged = zeros(length(list)/4,5);
+results_averaged = zeros(length(list)/4,6);
 result_count = 1;
 for jj = 1 : 2:  length(list)/2
     results_averaged(result_count,:)  = mean( results(jj:jj+1,:)  );
     result_count = result_count +1;
 end
 
+%Heatmap Normalized cell count
+vec = reshape(results_averaged(:,2),24,16) % Check if 24,16 should be swapped
+imagesc(vec');
+%{
 % Compute data per well
 tot_untreated = [];% zeros(192,5);
 tot_siRNAGFP = [];% zeros(96,5);
@@ -71,4 +76,4 @@ for ff = 1 : 4
     
     
 end
-
+%}
