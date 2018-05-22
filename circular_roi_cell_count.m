@@ -40,7 +40,7 @@ for kk = 0 : columns -1
     J = imcomplement(BW);
     [L,counts] = bwlabel(J);
     %figure; imagesc(L);
-    counts
-    res_count(kk+1,jj+1) = counts - 1; %subtract 1 because of the background 
+
+    res_count(jj+1,kk+1) = counts - 1; %subtract 1 because of the background 
  end
 end
