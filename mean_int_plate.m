@@ -1,15 +1,11 @@
 clear all;
 
-strImPath='I:\KristinaAirich_384Well_Screen_Plate_4_0207182044_1';
-
-% get all the tif file in the folder
-cellFiles=dir(strImPath);
-cellFiles={cellFiles.name}';
-cellFiles(cellfun('isempty', strfind(cellFiles, 'tif')))=[];
-
+strImPath=  'I:\KristinaAirich_384Well_Screen_Plate_4_0207182044_1';
  
-matOutput=nan(numel(cellFiles)/2, 1);  %This is the variable with the file names
-outer_count = 1;
+% get all the tif file in the folder
+cellFiles = dir([strImPath '/*.tif']);
+cellFiles={cellFiles.name};
+ 
 mean_int_values= zeros(numel(cellFiles));  %This is the variable with the intensities
 
 for i = 1 : 2 : numel(cellFiles)
@@ -26,4 +22,3 @@ for i = 1 : 2 : numel(cellFiles)
         
 end
 
- 
