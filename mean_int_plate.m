@@ -22,3 +22,11 @@ for i = 1 : 2 : numel(cellFiles)
         
 end
 
+for kk = 1 : 4: length()
+   
+    val_blue = mean(blue(kk:kk+3));
+    
+    val_green = mean(green(kk:kk+3));
+    
+    ratio = val_green/val_blue;
+end
