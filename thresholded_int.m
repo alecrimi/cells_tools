@@ -20,8 +20,8 @@ for i = 1 : 2 : numel(cellFiles)
         level = graythresh(green_channel);
         BW_g = imbinarize(green_channel,level);
 
-        mean_int_b = mean(mean(blue_channel.*BW_b));
-        mean_int_g = mean(mean(green_channel.*BW_g));
+        mean_int_b = mean(mean(double(blue_channel).*BW_b));
+        mean_int_g = mean(mean(double(green_channel).*BW_g));
         
         mean_int_values(i) = mean_int_b;
         mean_int_values(i+1) = mean_int_g;
