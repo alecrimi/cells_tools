@@ -40,8 +40,6 @@ end
  
  yticklabels={'B','D','F','H','J','L','N','P'};
  set(gca,'ytick',[2     4     6     8    10    12    14    16],'yticklabel',yticklabels);
- yticklabels={'B','D','F','H','J','L','N','P'};
- set(gca,'ytick',[2     4     6     8    10    12    14    16],'yticklabel',yticklabels);
  colorbar;
  title('Plate X');
  save('')
