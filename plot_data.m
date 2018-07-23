@@ -23,8 +23,8 @@ mean_int = data_averaged(:,3);
 area = data_averaged(:,4);
 GFP_cell_count = data_averaged(:,5);
 
-plot_heatmap(cell_count, 'cell_count');
-plot_heatmap(n_cell_count, 'n_cell_count');
-plot_heatmap(mean_int, 'mean_int');
-plot_heatmap(area, 'area');
-plot_heatmap(GFP_cell_count, 'GFP_cell_count');
+plot_heatmap(cell_count, 'CellCount');
+plot_heatmap(n_cell_count, 'NCellCount');
+plot_heatmap(mean_int, 'MeanInt');
+plot_heatmap(area, 'Area');
+plot_heatmap(GFP_cell_count, 'GFPCellCount');
