@@ -16,7 +16,7 @@ end
 mean_int_values= zeros(numel(cellFiles),1);  %This is the variable with the intensities
 
  
-for i = 1   : numel(cellFiles)
+for i = 1 : 2  : numel(cellFiles)
 
     i
     if(use_abs_path)
