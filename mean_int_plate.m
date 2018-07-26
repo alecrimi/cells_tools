@@ -25,11 +25,12 @@ for i = 1 : 2  : numel(cellFiles)
         channel = imread(  cellFiles{i} , 'tif');
     end
 
-    
-        level = graythresh(channel);
-        BW = imbinarize(channel,level);
+    %Blue is not masked
+    %    level = graythresh(channel);
+    %    BW = imbinarize(channel,level);
  
-        mean_int_values(i) = mean(mean(double(channel).*BW));
+     %   mean_int_values(i) = mean(mean(double(channel).*BW));
+        mean_int_values(i) = mean(mean(double(channel)));
 end
 %delete(gcp('nocreate'))
 only_blue = mean_int_values(1:2:end);
