@@ -58,6 +58,6 @@ end
  set(gca,'ytick',[2     4     6     8    10    12    14    16],'yticklabel',yticklabels);
  colorbar;
  title(['Plate ' strImPath]);
- saveas( gcf, feature_name, 'png' );
- xlswrite('val_green.xls',val_green);
+ saveas( gcf, strImPath, 'png' );
+ xlswrite(strcat(strImPath, '/val_green.xls'),val_green);
  save
