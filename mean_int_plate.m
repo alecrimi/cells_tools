@@ -5,6 +5,7 @@ if ( nargin==2)
     use_abs_path = 1;
 else
     use_abs_path = 0; 
+    strImPath='.';
 end 
 %delete(gcp('nocreate'))
 %parpool('local',4);
