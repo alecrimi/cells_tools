@@ -11,7 +11,8 @@ end
 % get all the tif file in the folder
 if(use_abs_path)
    %strImPath=  'E:\KristinaAirich_384Well_Screen_Plate_4_0207182044_1\';
-   cellFiles = dir([strImPath '/*.tif']);
+   cellFiles = dir(strcat(strImPath, '/*.tif'));
+   cellFiles={cellFiles.name};
 else
    cellFiles = dir(['*.tif']);
    cellFiles={cellFiles.name};
@@ -22,6 +23,7 @@ mean_int_values= zeros(numel(cellFiles),1);  %This is the variable with the inte
 for i = 1 :  numel(cellFiles)
     i
     if(use_abs_path)
+        fullfile(strImPath, cellFiles{i})
         channel = imread(fullfile(strImPath, cellFiles{i}), 'tif');
     else
         channel = imread(  cellFiles{i} , 'tif');
