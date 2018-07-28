@@ -7,7 +7,7 @@ subdirs(1:2) =  [];
 
 
 % Iterate for each folder
-for kk = 1 : length(subdirs)
+parfor kk = 1 : length(subdirs)
     
     current_folder = string(subdirs(kk))
     
