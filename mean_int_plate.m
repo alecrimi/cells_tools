@@ -24,7 +24,7 @@ mean_int_values= zeros(numel(cellFiles),1);  %This is the variable with the inte
 for i = 1 :  numel(cellFiles)
     i
     if(use_abs_path)
-        fullfile(strImPath, cellFiles{i})
+        %fullfile(strImPath, cellFiles{i})
         channel = imread(fullfile(strImPath, cellFiles{i}), 'tif');
     else
         channel = imread(  cellFiles{i} , 'tif');
@@ -60,5 +60,5 @@ end
  colorbar;
  title(['Plate ' strImPath]);
  saveas( gcf, strImPath, 'png' );
- xlswrite(strcat(strImPath, '/val_green.xls'),val_green);
+ xlswrite(strcat(strImPath, '/values.xls'),[val_green , val_blue , ratio);
  save
