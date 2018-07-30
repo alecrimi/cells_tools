@@ -61,4 +61,4 @@ end
  title(['Plate ' strImPath], 'Interpreter', 'none');
  saveas( gcf, strImPath, 'png' );
  xlswrite(strcat(strImPath, '/values.xls'),[val_green' , val_blue' , ratio']);
- save
+ save(strImPath);
