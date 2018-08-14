@@ -21,7 +21,8 @@ for kk = 1 : 2:  length(list)
     
 end
 
-csvwrite('results_4_20_2018.csv',results);
+% Save the original features
+csvwrite('results_feautes.csv',results);
 
 % Average per well field
 results_averaged = zeros(length(list)/4,6);
@@ -31,9 +32,12 @@ for jj = 1 : 2:  length(list)/2
     result_count = result_count +1;
 end
 
-%Heatmap Normalized cell count
-vec = reshape(results_averaged(:,2),24,16) % Check if 24,16 should be swapped
-imagesc(vec');
+% Save the average features
+csvwrite('avg_results_features.csv',results);
+
+% Plot and save averaged heatmaps
+plot_data('avg_results_features.csv')
+
 %{
 % Compute data per well
 tot_untreated = [];% zeros(192,5);
