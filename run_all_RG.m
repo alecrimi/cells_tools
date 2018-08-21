@@ -4,7 +4,7 @@ list = dir('*.tif');
 
 results = zeros(length(list)/2,5);
 result_count = 1;
-
+ 
 for kk = 1 : 2:  length(list)
     
     % [n, mean_int, n_pixel, intensities] = 
@@ -23,17 +23,37 @@ end
 
 % Save the original features
 csvwrite('results_feautes.csv',results);
-
+  
 % Average per well field
-results_averaged = zeros(length(list)/4,6);
+results_averaged = zeros(length(list)/4,5);
 result_count = 1;
 for jj = 1 : 2:  length(list)/2
     results_averaged(result_count,:)  = mean( results(jj:jj+1,:)  );
     result_count = result_count +1;
 end
 
+count_letters = 0;
+plate_list = strings(24*16,1);
+for array = char(double('A'):double('P')) % create character array from 'A' to 'Z'
+    for num = 1 : 24
+        plate_list(count_letters+num) =  strcat(array,num2str(num)); 
+    end
+    count_letters = count_letters +24;
+end 
+ 
+results_averaged = num2cell(results_averaged);
+tot_feat = [ results_averaged plate_list];
+
 % Save the average features
-csvwrite('avg_results_features.csv',results);
+%csvwrite('avg_results_features.csv',results_averaged);
+fid = fopen('avg_results_features.csv','wt');
+if fid>0
+     fprintf(fid,'CellCount,NormCellCount,MeanInt,Area,GreenCellCount,Well\n');
+     for k=1:size(tot_feat,1)
+         fprintf(fid,'%s,%s,%s,%s,%s,%s\n',tot_feat{k,:}); %%
+     end
+     fclose(fid);
+end
 
 % Plot and save averaged heatmaps
 plot_data('avg_results_features.csv')
@@ -43,7 +63,6 @@ plot_data('avg_results_features.csv')
 tot_untreated = [];% zeros(192,5);
 tot_siRNAGFP = [];% zeros(96,5);
 tot_siRNALV = [];% zeros(96,5);
-
 for ll = 1 : 24 : length(results_averaged)
   
     % Compute mean untreated
@@ -60,8 +79,6 @@ for ll = 1 : 24 : length(results_averaged)
     tot_siRNAGFP( end+1:end+6,:)  = siRNAGFP;
     tot_siRNALV( end+1:end+6,:)  = siRNALV;
 end
-
-
 labels =  [ zeros(length(tot_untreated(:,1)), 1); ones(length(tot_siRNAGFP(:,1)), 1); 2*ones(length(tot_siRNALV(:,1)), 1)] ;
 for ff = 1 : 4
     figure; boxplot([tot_untreated(:,ff) ;  tot_siRNAGFP(:,ff) ;  tot_siRNALV(:,ff)],labels );
