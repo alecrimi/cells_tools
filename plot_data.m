@@ -1,6 +1,10 @@
 function plot_data(filename)
  
-data = csvread(filename);
+%data = csvread(filename);
+fid = fopen(filename, 'rt');  %the 't' is important!
+stream = textscan(fid,'%f%f%f%f%f%s','HeaderLines',1,'Delimiter',',','EndOfLine','\r\n','ReturnOnError',false);
+fclose(fid); 
+data_averaged = cell2mat(stream(:,1:5));
 
 %{
 % Average per well
@@ -11,7 +15,6 @@ for jj = 1 : 2:  length(data)
     result_count = result_count +1;
 end
 %}
-
 % The convetion is to have 
 % in the first column Cell count
 % in the second column Norm Cell Count
