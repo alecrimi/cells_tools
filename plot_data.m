@@ -2,7 +2,7 @@ function plot_data(filename)
  
 %data = csvread(filename);
 fid = fopen(filename, 'rt');  %the 't' is important!
-stream = textscan(fid,'%f%f%f%f%f%s','HeaderLines',1,'Delimiter',',','EndOfLine','\r\n','ReturnOnError',false);
+stream = textscan(fid,'%f%f%f%f%f%s%s%s%s','HeaderLines',1,'Delimiter',',','EndOfLine','\r\n','ReturnOnError',false);
 fclose(fid); 
 data_averaged = cell2mat(stream(:,1:5));
 
